@@ -1,6 +1,13 @@
-var app = angular.module('yusome', ['ngRoute', 'ngResource']).run(function($rootScope) {
+var app = angular.module('yusome', ['ngRoute', 'ngResource']).run(function($rootScope,$http,$location) {
 	$rootScope.authenticated = false;
 	$rootScope.current_user = '';
+
+	$rootScope.signout = function(){
+		$http.get('auth/signout');
+		$rootScope.authenticated = false;
+		$rootScope.current_user = '';
+		$location.path('/login');
+	};
 });
 
 app.config(function($routeProvider){
@@ -70,9 +77,4 @@ app.controller('authController', function($scope, $http, $rootScope, $location){
     });
   };
 
-	$scope.signout = function(){
-		$http.get('auth/signout');
-		$rootScope.authenticated = false;
-		$rootScope.current_user = '';
-	};
 });

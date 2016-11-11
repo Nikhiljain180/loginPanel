@@ -11,6 +11,11 @@ a {
 	color: #00B7FF;
 }
 
+.errorWarning{
+	color: red;
+	font-weight: bold;
+}
+
 .submit-btn {
 	background-color: #b1dbff;
 	margin: 10px 0 10px 0;
