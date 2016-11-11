@@ -1,18 +1,12 @@
 var app = angular.module('yusome', ['ngRoute', 'ngResource']).run(function($rootScope) {
 	$rootScope.authenticated = false;
 	$rootScope.current_user = '';
-	
-	$rootScope.signout = function(){
-    	$http.get('auth/signout');
-    	$rootScope.authenticated = false;
-    	$rootScope.current_user = '';
-	};
 });
 
 app.config(function($routeProvider){
 	$routeProvider
 		//the timeline display
-		.when('/', {
+		.when('/todo', {
 			templateUrl: 'main.html',
 			controller: 'mainController'
 		})
@@ -22,7 +16,7 @@ app.config(function($routeProvider){
 			controller: 'authController'
 		})
 		//the signup display
-		.when('/signup', {
+		.when('/', {
 			templateUrl: 'register.html',
 			controller: 'authController'
 		});
@@ -55,7 +49,7 @@ app.controller('authController', function($scope, $http, $rootScope, $location){
       if(data.state == 'success'){
         $rootScope.authenticated = true;
         $rootScope.current_user = data.user.username;
-        $location.path('/');
+        $location.path('/todo');
       }
       else{
         $scope.error_message = data.message;
@@ -68,11 +62,17 @@ app.controller('authController', function($scope, $http, $rootScope, $location){
       if(data.state == 'success'){
         $rootScope.authenticated = true;
         $rootScope.current_user = data.user.username;
-        $location.path('/');
+        $location.path('/todo');
       }
       else{
         $scope.error_message = data.message;
       }
     });
   };
+
+	$scope.signout = function(){
+		$http.get('auth/signout');
+		$rootScope.authenticated = false;
+		$rootScope.current_user = '';
+	};
 });
