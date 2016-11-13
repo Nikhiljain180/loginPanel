@@ -3,11 +3,12 @@ var app = angular.module('yusome', ['ngRoute', 'ngResource']).run(function ($roo
     $rootScope.current_user = '';
 
     $rootScope.signout = function () {
-        $http.get('auth/signout');
-        $rootScope.authenticated = false;
-        $rootScope.current_user = '';
-        $location.path('/login');
-    };
+        $http.get('auth/signout').success(function () {
+            $rootScope.authenticated = false;
+            $rootScope.current_user = '';
+            $location.path('/login');
+        });
+    }
 });
 
 app.config(function ($routeProvider) {
@@ -51,10 +52,10 @@ app.service('postService', function ($http, $rootScope) {
 });
 
 
-app.controller('mainController', function (postService, $scope, $rootScope,$location) {
+app.controller('mainController', function (postService, $scope, $rootScope, $location) {
     $scope.current_user = $rootScope.current_user;
 
-    if(!$rootScope.authenticated){
+    if (!$rootScope.authenticated) {
         $location.path('/login');
     }
     else {
@@ -79,6 +80,13 @@ app.controller('mainController', function (postService, $scope, $rootScope,$loca
 });
 
 app.controller('authController', function ($scope, $http, $rootScope, $location) {
+
+    $http.get('/auth/checkLogin').success(function (userName) {
+        $rootScope.authenticated = true;
+        $rootScope.current_user = userName;
+        $location.path('/todo');
+    });
+
     $scope.user = {username: '', password: ''};
     $scope.error_message = '';
 

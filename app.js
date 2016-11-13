@@ -8,7 +8,7 @@ var session = require('express-session');
 var passport = require('passport');
 //initialize mongoose schemas
 require('./models/models');
-var index = require('./routes/index');
+var index = require('./routes/default');
 var api = require('./routes/api');
 var authenticate = require('./routes/authenticate')(passport);
 var mongoose = require('mongoose');                         //add for Mongo support
